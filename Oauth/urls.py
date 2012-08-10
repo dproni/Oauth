@@ -10,7 +10,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', home, name='home'),
     url(r'^done/$', done, name='done'),
-    url(r'^main/$', main, name='main'),
     url(r'^error/$', error, name='error'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^form/$', form, name='form'),

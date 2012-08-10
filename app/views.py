@@ -17,16 +17,6 @@ def home(request):
         return render_to_response('home.html', {'version': version},
                                   RequestContext(request))
 
-def main(request):
-    """Home view, displays login mechanism"""
-    if request.user.is_authenticated():
-        return render_to_response('main.html',
-                {'version': version},
-            )
-    else:
-        return render_to_response('home.html', {'version': version},
-                                  RequestContext(request))
-
 
 @login_required
 def done(request):
@@ -35,7 +25,8 @@ def done(request):
         'version': version,
         'last_login': request.session.get('social_auth_last_login_backend')
     }
-    return render_to_response('done.html', ctx, RequestContext(request))
+    a = RequestContext(request)
+    return render_to_response('done.html', ctx, a)
 
 
 def error(request):
