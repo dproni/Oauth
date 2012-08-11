@@ -19,7 +19,7 @@
         }
     </style>
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-
+    {% block extrahead %}{% endblock %}
     {% block script %}{% endblock %}
 </head>
 
@@ -49,6 +49,8 @@
                     <li class="active"><a href="/">Home</a></li>
                     <li> <a rel="nofollow" href="/login/google/">Google</a></li>
                     <li><a rel="nofollow" class="logout" href="/logout/">Logout</a></li>
+                    <li><a href="{% url todo-lists %}">To-do Lists</a></li>
+                    <li><a href="{% url todo-mine %}">My Tasks</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

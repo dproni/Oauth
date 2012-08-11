@@ -39,11 +39,12 @@ USE_I18N = True
 USE_L10N = True
 
 MEDIA_ROOT = ''
-ADMIN_MEDIA_PREFIX = '/admin-media/'
 MEDIA_URL = ''
+
 STATIC_URL = (
-    join(ROOT_PATH, '../static')
+    join(ROOT_PATH, '../static/')
     )
+#ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 SECRET_KEY = 't2eo^kd%k+-##ml3@_x__$j0(ps4p0q6eg*c4ttp9d2n(t!iol'
 
@@ -76,6 +77,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'social_auth',
     'app',
+    'todo',
     )
 
 AUTHENTICATION_BACKENDS = (
@@ -124,7 +126,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
     'social_auth.backends.pipeline.associate.associate_by_email',
     'social_auth.backends.pipeline.misc.save_status_to_session',
-#    'app.pipeline.redirect_to_form',
+    'app.pipeline.redirect_to_form',
     'app.pipeline.username',
     'social_auth.backends.pipeline.user.create_user',
     'social_auth.backends.pipeline.social.associate_user',
