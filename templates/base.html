@@ -37,6 +37,7 @@
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-user"></i> {{ user.username }}
                     <span class="caret"></span>
+
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
@@ -47,10 +48,13 @@
             <div class="nav-collapse">
                 <ul class="nav">
                     <li class="active"><a href="/">Home</a></li>
-                    <li> <a rel="nofollow" href="/login/google/">Google</a></li>
-                    <li><a rel="nofollow" class="logout" href="/logout/">Logout</a></li>
-                    <li><a href="{% url todo-lists %}">To-do Lists</a></li>
-                    <li><a href="{% url todo-mine %}">My Tasks</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a rel="nofollow" class="logout" href="/logout/">Logout</a></li>
+                        <li><a href="{% url shareBoard %}">Share board</a></li>
+                        <li><a href="{% url addTask %}">Add task</a></li>
+                    {% else %}
+                        <li> <a rel="nofollow" href="/login/google/">Google</a></li>
+                    {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -82,19 +86,19 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
+{#    <script src="../assets/js/jquery.js"></script>#}
+{#    <script src="../assets/js/bootstrap-transition.js"></script>#}
+{#    <script src="../assets/js/bootstrap-alert.js"></script>#}
+{#    <script src="../assets/js/bootstrap-modal.js"></script>#}
+{#    <script src="../assets/js/bootstrap-dropdown.js"></script>#}
+{#    <script src="../assets/js/bootstrap-scrollspy.js"></script>#}
+{#    <script src="../assets/js/bootstrap-tab.js"></script>#}
+{#    <script src="../assets/js/bootstrap-tooltip.js"></script>#}
+{#    <script src="../assets/js/bootstrap-popover.js"></script>#}
+{#    <script src="../assets/js/bootstrap-button.js"></script>#}
+{#    <script src="../assets/js/bootstrap-collapse.js"></script>#}
+{#    <script src="../assets/js/bootstrap-carousel.js"></script>#}
+{#    <script src="../assets/js/bootstrap-typeahead.js"></script>#}
 
     </body>
 </html>

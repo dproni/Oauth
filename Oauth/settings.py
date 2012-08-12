@@ -77,7 +77,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'social_auth',
     'app',
-    'todo',
     )
 
 AUTHENTICATION_BACKENDS = (

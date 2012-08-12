@@ -44,17 +44,18 @@ def list_lists(request):
     """
     
     # Make sure user belongs to at least one group.
-    group_count = request.user.groups.all().count()
-    if group_count == 0:
-        messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")                        
+#    group_count = request.user.groups.all().count()
+#    if group_count == 0:
+#        messages.error(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
         
 
     # Only show lists to the user that belong to groups they are members of.
     # Superusers see all lists
-    if request.user.is_superuser:
-        list_list = List.objects.all().order_by('group','name')
-    else:
-        list_list = List.objects.filter(group__in=request.user.groups.all).order_by('group','name')
+#    if request.user.is_superuser:
+#        list_list = List.objects.all().order_by('name')
+#    else:
+
+    list_list = List.objects.filter('name')
     
     # Count everything
     list_count = list_list.count()
@@ -321,6 +322,7 @@ def reorder_tasks(request):
     # "i" as the new priority for the current object.
     i = 1
     for t in newtasklist:
+
         newitem = Item.objects.get(pk=t)
         newitem.priority = i
         newitem.save()

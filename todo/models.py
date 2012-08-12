@@ -11,8 +11,8 @@ class List(models.Model):
     name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=60,editable=False)
     # slug = models.SlugField(max_length=60)    
-    group = models.ForeignKey(Group)
-    
+#    group = models.ForeignKey(Group)
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
@@ -36,7 +36,7 @@ class List(models.Model):
         verbose_name_plural = "Lists"
         
         # Prevents (at the database level) creation of two lists with the same name in the same group
-        unique_together = ("group", "slug")
+#        unique_together = ("group", "slug")
         
         
 
