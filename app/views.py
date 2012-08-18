@@ -12,15 +12,18 @@ from social_auth.utils import setting
 from app.models import *
 from app.forms import *
 
+import logging
+logger = logging.getLogger('errors.log')
+
 def home(request):
     """Home view, displays login mechanism"""
     if request.user.is_authenticated():
-        try:
-            Board.objects.get(creator=request.user.id)
-        except:
-            board = Board(creator=User.objects.get(id=request.user.id))
-            board.name=request.user.email
-            board.save()
+#        try:
+#            Board.objects.get(creator=request.user.id)
+#        except:
+#            board = Board(creator=User.objects.get(id=request.user.id))
+#            board.name=request.user.email
+#            board.save()
         return HttpResponseRedirect('/main') # redirect to main
     else:
         return render_to_response('main.html', {'version': version},
@@ -45,14 +48,17 @@ def main(request):
         form = AddItem(request.POST)
 
     creator = request.user.id
-    boards  = Board.objects.filter(creator)
-
-    items   = [item for Item.objects.filter(board=board)]
-
+    boards  = Board.objects.filter(creator=creator)
+    items = {}
+    for i in boards:
+        tasks = Item.objects.filter(board=i.id)
+        items[i] = tasks
+#    items   = [item for item in Item.objects.filter(board=board)]
+#    items = Item.objects.filter(board=boards)
     ctx = {
         'items': items,
         'form': form,
-        'boards': ,
+        'boards': boards,
         'version': version,
         'last_login': request.session.get('social_auth_last_login_backend')
     }
@@ -77,12 +83,13 @@ def addBoard(request):
     else:
         form = Addboard(request.POST)
 
-    items = Item.objects.all()
+    items   = Item.objects.all()
+    boards  = Board.objects.filter(creator=request.user.id),
 
     ctx = {
         'items': items,
         'form': form,
-        'board': Board.objects.filter(creator=request.user.id),
+        'board': boards,
         'version': version,
         'last_login': request.session.get('social_auth_last_login_backend')
     }
@@ -111,14 +118,26 @@ def shareTask(request):
     return render_to_response('done.html', ctx, a)
 
 @login_required
-def deleteTask(request):
-    """Login complete view, displays user data"""
-    ctx = {
-        'version': version,
-        'last_login': request.session.get('social_auth_last_login_backend')
-    }
-    a = RequestContext(request)
-    return render_to_response('done.html', ctx, a)
+def deleteTask(request, task_id):
+    """delete task"""
+    try:
+        task = Item.objects.get(id=task_id)
+        task.delete()
+    except Exception:
+        logger.error("task doesn't exist")
+    return HttpResponseRedirect('/main')
+
+@login_required
+def deleteBoard(request, board_id):
+    """delete board"""
+    try:
+        board = Board.objects.get(id=board_id)
+        for task in Item.objects.filter(board=board_id):
+            task.delete()
+        board.delete()
+    except Exception:
+        logger.error("board doesn't exist")
+    return HttpResponseRedirect('/main')
 
 @login_required
 def shareBoard(request):

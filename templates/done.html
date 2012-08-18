@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load url from future %}
+{#{% load url from future %}#}
 
 {% block script %}
 
@@ -10,7 +10,8 @@
 {% block content %}
 
     {% for board in boards %}
-        {{ board.id }} {{ board.name }} {{ board.creator }} </br>
+        {{ board.id }} {{ board.name }} {{ board.creator }} <a href="{% url deleteBoard board.id %}">delete</a><br>
+
     {% endfor %}
     <form method="post" action="">
         {% for i in form %}
@@ -23,8 +24,11 @@
 
 <div>
 
-{% for i in items %}
-    {{ i }}
+{% for board, tasks in items.items %}
+        ! {{ board }}<br>
+    {% for task in tasks %}
+        {{ task }}<a href="{% url deleteTask task.id %}">delete</a><br>
+    {% endfor %}
 {% endfor %}
 </div>
 {% endblock %}
