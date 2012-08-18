@@ -19,6 +19,7 @@
         }
     </style>
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+
     {% block extrahead %}{% endblock %}
     {% block script %}{% endblock %}
 </head>
@@ -52,6 +53,7 @@
                         <li><a rel="nofollow" class="logout" href="/logout/">Logout</a></li>
                         <li><a href="{% url shareBoard %}">Share board</a></li>
                         <li><a href="{% url addTask %}">Add task</a></li>
+{#                        <li><a href="{% url AddBoard %}">Add board</a></li>#}
                     {% else %}
                         <li> <a rel="nofollow" href="/login/google/">Google</a></li>
                     {% endif %}
@@ -75,10 +77,21 @@
     </div><!--/span-->
         </div><!--/row-->
 
-        <hr>
 
         <footer>
-            <p>&copy; Company 2012</p>
+            <div>
+                <h3>Board ID: {{ board.id }}</h3>
+                <h3>User data:</h3>
+                <table>
+                    <tr class="odd"><th>Id:</th> <td>{{ user.id }}</td></tr>
+                    <tr class="even"><th>Username:</th> <td>{{ user.username }}</td></tr>
+                    <tr class="odd"><th>Email:</th> <td>{{ user.email|default:"Not provided" }}</td></tr>
+                    <tr class="even"><th>First name:</th> <td>{{ user.first_name|default:"Not provided" }}</td></tr>
+                    <tr class="odd"><th>Last name:</th> <td>{{ user.last_name|default:"Not provided" }}</td></tr>
+                    <tr class="even"><th>Last login backend:</th> <td>{{ last_login }}</td></tr>
+                </table>
+            </div>
+
         </footer>
 
     </div><!--/.fluid-container-->

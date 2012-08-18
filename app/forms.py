@@ -7,8 +7,11 @@ import datetime
 
 class Addboard(ModelForm):
 
-    def __init__(self, user, *args, **kwargs):
-        super(Addboard, self).__init__(*args, **kwargs)
-
     class Meta:
         model = Board
+
+class AddItem(ModelForm):
+
+    class Meta:
+#        exclude = ('board',)
+        model = Item
