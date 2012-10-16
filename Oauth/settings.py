@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'social_auth',
+#    'todo',
     'app',
     )
 
@@ -133,7 +134,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.user.update_user_details',
     'social_auth.backends.pipeline.misc.save_status_to_session',
 #    'app.pipeline.redirect_to_form2',
-    'app.pipeline.first_name',
+    'app.pipeline.first_name'
     )
 
 try:

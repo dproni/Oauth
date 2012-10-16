@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+    <ul class="nav">
+        <li><a href="/">Home</a></li>
+        {% if user.is_authenticated %}
+            <li><a rel="nofollow" class="logout" href="/logout/">Logout</a></li>
+            <li class="active"><a href="{% url todo %}">Todo</a></li>
+        {% else %}
+            <li> <a rel="nofollow" href="/login/google/">Google</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="span10 columns offset2">
+	<h2>Add a new Task: </h2>
+	  <form method="POST" action="{% url todo %}" class="form-search">
+	  	{% csrf_token %}
+		<input id="name" type="text" name="name" maxlength="100" />
+		<input type="submit" class="btn primary">
+	  </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span10 columns offset2">
+      <h1>Current Tasks</h1>
+Name
+          Finished
+          Shared
+          Owner
+
+        {% for task in tasks %}
+         {{task.name}}
+         {{task.finished}}
+         {{task.shared}}
+         {{user}}
+
+			<form method="POST" action="{% url update_task 'complete' task.id %}" class="form-inline">
+				{% csrf_token %}
+                <input type="text" name="email">
+                <input type="submit" value="Delete" class="btn danger">
+				<input type="submit" value="Complete" class="btn primary">
+                <input type="submit" value="Share" class="btn danger">
+			</form>
+{##}
+{#			<form method="POST" action="{% url update_task 'delete' task.id %}">#}
+{#                {% csrf_token %}#}
+{#				<input type="submit" value="Delete" class="btn danger">#}
+{#			</form>#}
+{##}
+{#            <form method="POST" action="{% url update_task 'share' task.id %}">#}
+{#                {% csrf_token %}#}
+{#                <input type="text" name="email"><br>#}
+{#                <input type="submit" value="Share" class="btn danger">#}
+{#            </form>#}
+		{% endfor %}
+          {% for task in sharedTasks %}
+                  {{task.tasks.name}}
+                  {{task.tasks.finished}}
+                  {{task.tasks.shared}}
+                  {{task.tasks.owner}}
+                      <form method="POST" action="{% url update_task 'complete' task.id %}">
+                          {% csrf_token %}
+                          <input type="submit" value="Complete" class="btn primary">
+                          <input type="submit" value="Delete" class="btn danger">
+                      </form>
+{#                      <form method="POST" action="{% url update_task 'delete' task.id %}">#}
+{#                          {% csrf_token %}#}
+{#                          <input type="submit" value="Delete" class="btn danger">#}
+{#                      </form>#}
+
+          {% endfor %}
+      <br />
+    </div>
+  </div>
+</div>
+
+{% endblock %}

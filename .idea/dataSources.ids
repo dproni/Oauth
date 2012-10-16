@@ -10,29 +10,14 @@
         <url>file://$PROJECT_DIR$/xerial-sqlite-license.txt</url>
       </library>
     </libraries>
-    <table name="app_board" schema="" catalog="" type="TABLE">
-      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4" />
-      <column name="creator_id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4" />
-      <column name="name" sqlType="VARCHAR(140)" length="2000000000" precision="10" nullable="false" jdbcType="12" />
-      <column name="created_date" sqlType="DATE" length="2000000000" precision="10" nullable="false" jdbcType="12" />
-      <primary-key columns="id" />
-      <foreign-key columns="creator_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" />
-      <index name="app_board_f97a5119" unique="false" columns="creator_id" />
-    </table>
     <table name="app_customuser" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4" />
       <column name="username" sqlType="VARCHAR(128)" length="2000000000" precision="10" nullable="false" jdbcType="12" />
       <column name="last_login" sqlType="DATETIME" length="2000000000" precision="10" nullable="true" jdbcType="12" />
       <primary-key columns="id" />
     </table>
-    <table name="app_item" schema="" catalog="" type="TABLE">
-      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4" />
-      <column name="title" sqlType="VARCHAR(140)" length="2000000000" precision="10" nullable="false" jdbcType="12" />
-      <column name="board_id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4" />
-      <primary-key columns="id" />
-      <foreign-key columns="board_id" ref-table="app_board" ref-schema="" ref-catalog="" ref-columns="id" />
-      <index name="app_item_b1f48483" unique="false" columns="board_id" />
-    </table>
+    <table name="app_task" schema="" catalog="" type="TABLE" />
+    <table name="app_viewer" schema="" catalog="" type="TABLE" />
     <table name="auth_group" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="false" jdbcType="4" />
       <column name="name" sqlType="VARCHAR(80)" length="2000000000" precision="10" nullable="false" jdbcType="12" />

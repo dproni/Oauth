@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items count='{{ count }}'>
+{% for task in tasks %}
+    <item name='{{task.name}}' is_finished='{{task.finished}}' is_shared='{{task.shared}}' owner='{{user}}'/>
+{% endfor %}
+{% for task in sharedTasks %}
+    <item name='{{task.tasks.name}}' is_finished='{{task.tasks.finished}}' is_shared='{{task.tasks.shared}}' owner='{{task.tasks.owner}}'/>
+{% endfor %}
+</items>

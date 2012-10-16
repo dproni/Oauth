@@ -14,11 +14,12 @@
 
     {% endfor %}
     <form method="post" action="">
-        {% for i in form %}
-            {{ i }}
-        {% endfor %}
+{#        {% for i, k in form.items %}#}
+{#            {{ i }}#}
+{#            {{ k }}#}
+{#        {% endfor %}#}
 
-{#            {{ form }}#}
+            {{ form }}
         <input type="submit" value="Send" />
     </form>
 
