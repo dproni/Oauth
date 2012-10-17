@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>{% load activelink %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -17,8 +17,11 @@
         .sidebar-nav {
             padding: 9px 0;
         }
+        .row-fluid {
+            text-align: center;
+        }
     </style>
-    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-responsive.css" rel="stylesheet">
 
     {% block extrahead %}{% endblock %}
     {% block script %}{% endblock %}
@@ -36,10 +39,10 @@
             </div>
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="active"><a href="/">Home</a></li>
+                    <li {% ifactive "main" %}class="active"{% endifactive %}><a href="{% url main %}">Home</a></li>
                     {% if user.is_authenticated %}
-                        <li><a rel="nofollow" class="logout" href="/logout/">Logout</a></li>
-                        <li><a href="{% url todo %}">Todo</a></li>
+                        <li><a rel="nofollow" href="/logout/">Logout</a></li>
+                        <li {% ifactive "todo" %}class="active"{% endifactive %}><a href="{% url todo %}">Todo</a></li>
                     {% else %}
                         <li> <a rel="nofollow" href="/login/google/">Google</a></li>
                     {% endif %}
@@ -84,19 +87,20 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-{#    <script src="../assets/js/jquery.js"></script>#}
-{#    <script src="../assets/js/bootstrap-transition.js"></script>#}
-{#    <script src="../assets/js/bootstrap-alert.js"></script>#}
-{#    <script src="../assets/js/bootstrap-modal.js"></script>#}
-{#    <script src="../assets/js/bootstrap-dropdown.js"></script>#}
-{#    <script src="../assets/js/bootstrap-scrollspy.js"></script>#}
-{#    <script src="../assets/js/bootstrap-tab.js"></script>#}
-{#    <script src="../assets/js/bootstrap-tooltip.js"></script>#}
-{#    <script src="../assets/js/bootstrap-popover.js"></script>#}
-{#    <script src="../assets/js/bootstrap-button.js"></script>#}
-{#    <script src="../assets/js/bootstrap-collapse.js"></script>#}
-{#    <script src="../assets/js/bootstrap-carousel.js"></script>#}
-{#    <script src="../assets/js/bootstrap-typeahead.js"></script>#}
+    <script src="{{ MEDIA_URL }}js/jquery.js"></script>
+    <script src="{{ MEDIA_URL }}js/scripts.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-transition.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-alert.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-modal.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-dropdown.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-scrollspy.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-tab.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-tooltip.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-popover.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-button.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-collapse.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-carousel.js"></script>
+    <script src="{{ MEDIA_URL }}js/bootstrap-typeahead.js"></script>
 
     </body>
 </html>

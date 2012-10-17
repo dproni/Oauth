@@ -28,24 +28,27 @@ def todo(request):
         task.save()
     tasks       = Task.objects.filter(owner = request.user)
     sharedTasks = Viewer.objects.filter(name = request.user)
-    count = len(tasks) + len(sharedTasks)
+    viewers     = Viewer.objects.filter(tasks__in=Task.objects.filter(owner = request.user))
+    viewers     = set([i.name.email for i in viewers])
+    count       = len(tasks) + len(sharedTasks)
+    profiles    = map(lambda x: x.split('@')[0], viewers)
     return render(request, 'todo.html', locals())
 
 #    return render(request, 'todos.xml', locals(), content_type='text/xml')
 @login_required()
-def update_task(request, method, id):
+def update_task(request, id):
     task = Task.objects.get(id = id)
     if request.POST:
-        if method == 'complete':
+        if 'complete' in request.POST:
             if task.owner == request.user:
                 task.finished = True
                 task.save()
             return redirect(todo)
-        if method == 'delete':
+        if 'delete' in request.POST:
             if task.owner == request.user:
                 task.delete()
             return redirect(todo)
-        if method == 'share':
+        if 'share' in request.POST:
             email       = request.POST['email']
             user        = User.objects.get(email = email)
             viewer, _   = Viewer.objects.get_or_create(name = user, tasks = task)

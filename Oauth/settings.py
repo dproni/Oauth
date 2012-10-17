@@ -39,10 +39,10 @@ USE_I18N = True
 USE_L10N = True
 
 MEDIA_ROOT = ''
-MEDIA_URL = ''
+MEDIA_URL = '/static/'
 
 STATIC_URL = (
-    join(ROOT_PATH, '../static/')
+    join(ROOT_PATH, '..%s' % MEDIA_URL)
     )
 #ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
@@ -76,7 +76,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'social_auth',
-#    'todo',
+    'activelink',
     'app',
     )
 
@@ -113,9 +113,9 @@ AUTHENTICATION_BACKENDS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
+#    'django.core.context_processors.i18n',
     'django.core.context_processors.media',
-    'django.core.context_processors.static',
+    'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'social_auth.context_processors.social_auth_by_type_backends',
     )
