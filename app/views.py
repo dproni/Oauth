@@ -4,19 +4,27 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.messages.api import get_messages
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib import messages
 
 from social_auth import __version__ as version
 from social_auth.utils import setting
 from app.models import *
-from django.http import HttpResponse
+from app.forms import *
 from django.shortcuts import redirect, render
-from django.core import serializers
+from django.contrib import messages
 
-#import logging
-#logger = logging.getLogger('errors.log')
 
+@login_required()
+def add_friend(request):
+    addFriend   = AddFriendForm(request)
+    if request.method == 'POST':
+        if addFriend.is_valid(request):
+            addFriend.save(request)
+    return redirect(todo)
+
+@login_required()
+def delete_friend(request, friend):
+    Friends.objects.get(friend=friend).delete()
+    return redirect(todo)
 
 @login_required()
 def todo(request):
@@ -26,15 +34,17 @@ def todo(request):
             owner   = request.user
                     )
         task.save()
+    addFriend   = AddFriendForm()
     tasks       = Task.objects.filter(owner = request.user)
     sharedTasks = Viewer.objects.filter(name = request.user)
     viewers     = Viewer.objects.filter(tasks__in=Task.objects.filter(owner = request.user))
     viewers     = set([i.name.email for i in viewers])
+    friends     = Friends.objects.filter(creator = request.user)
     count       = len(tasks) + len(sharedTasks)
-    profiles    = map(lambda x: x.split('@')[0], viewers)
+
     return render(request, 'todo.html', locals())
 
-#    return render(request, 'todos.xml', locals(), content_type='text/xml')
+
 @login_required()
 def update_task(request, id):
     task = Task.objects.get(id = id)
@@ -43,6 +53,10 @@ def update_task(request, id):
             if task.owner == request.user:
                 task.finished = True
                 task.save()
+            elif Viewer.objects.get(tasks = task).name == request.user:
+                task.finished = True
+                task.save()
+                Viewer.objects.get(tasks = task).delete()
             return redirect(todo)
         if 'delete' in request.POST:
             if task.owner == request.user:
@@ -56,6 +70,11 @@ def update_task(request, id):
             task.shared = True
             task.save()
             return redirect(todo)
+        if 'GiveBack' in request.POST:
+            Viewer.objects.get(tasks=task).delete()
+            task.shared = False
+            task.save()
+            return redirect(todo)
     else:
         return redirect(todo)
 #
@@ -63,7 +82,7 @@ def update_task(request, id):
 #
 
 
-def home(request):
+def home(request, *args, **kwards):
     """Home view, displays login mechanism"""
     if request.user.is_authenticated():
         return HttpResponseRedirect('/main') # redirect to main

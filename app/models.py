@@ -13,6 +13,11 @@ class Viewer(models.Model):
     name        = models.ForeignKey(User)
     tasks       = models.ForeignKey(Task)
 
+class Friends(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    creator = models.ForeignKey(User, related_name="friendship_creator_set")
+    friend = models.ForeignKey(User, related_name="friend_set")
+
 class CustomUserManager(models.Manager):
     def create_user(self, username, email):
         return self.model._default_manager.create(username=username)

@@ -6,6 +6,14 @@
 
     {% endblock %}
     {% load activelink %}
+        {% for friend in friends %}
+            {{ friend.friend.email}}
+             <a href="{% url delete_friend friend.friend.id %}"><span class="label label-important">x</span></a>
+        {% endfor %}
+    <form method="POST" action="{% url add_friend %}" class="form-search">
+        {% csrf_token %}
+        {{ addFriend }}
+    </form>
     {% for viewer in viewers %}
         <img src="http://profiles.google.com/s2/photos/profile/{{ viewer|email }}?sz=20">
         {{ viewer }}
@@ -23,39 +31,56 @@
   </div>
 
   <div class="row">
-    <div class="span12">
-        <br>
-        <div id="task" class="well form-inline">
+    <div class="span6">
             {% for task in tasks %}
-                <h6>{{task.name}}</h6>
-                {{task.finished}}
-                {{task.shared}}
-                {{user}}
+                <h3>{{task.name}}</h3>
+                {% if task.finished %}
+                    <span class="label label-success">Finished</span>
+                {% else %}
+                    <span class="label label-important">Not finished</span>
+                {% endif %}
+                {% if task.shared %}
+                    <span class="label label-success">Shared</span>
+                {% else %}
+                    <span class="label label-important">Not shared</span>
+                {% endif %}
+                <span class="label label-info">{{user.email}}</span>
 
                 <form method="POST" action="{% url update_task task.id %}" class="form-inline">
                     {% csrf_token %}
-                    <input type="text" name="email">
-                    <input type="submit" name="delete" value="Delete" class="btn danger">
-                    <input type="submit" name="complete" value="Complete" class="btn primary">
-                    <input type="submit" name="share" data-content="<input type='text'/>" data-placement="top" rel="popover" value="Share" class="btn danger">
+                    <br>
+                    <input placeholder="email" name="email">
+                    <input type="submit" name="delete" value="Delete" class="btn-danger">
+                    <input type="submit" name="share" value="Share" class="btn-warning">
+                    <input type="submit" name="complete" value="Complete" class="btn-success">
                 </form>
 
             {% endfor %}
-        </div>
+    </div>
+    <div class="span6">
             {% for task in sharedTasks %}
-                  {{task.tasks.name}}
-                  {{task.tasks.finished}}
-                  {{task.tasks.shared}}
-                  {{task.tasks.owner.email}}
-                      <form method="POST" action="{% url update_task task.id %}">
+                <h3>{{task.tasks.name}}</h3>
+                {% if task.tasks.finished %}
+                <span class="label label-success">Finished</span>
+                {% else %}
+                    <span class="label label-important">Not finished</span>
+                {% endif %}
+                <span class="label label-info">{{ task.tasks.owner.email }}</span>
+                      <form method="POST" action="{% url update_task task.tasks.id %}">
                           {% csrf_token %}
-                          <input type="submit" value="Complete" class="btn primary">
-{#                          <input type="submit" value="Delete" class="btn danger">#}
+                          <br>
+                          <input type="submit" name="complete" value="Complete" class="btn-success">
+                          <input type="submit" name="GiveBack" value="GiveBack" class="btn-danger">
+                          {#                          <input type="submit" value="Delete" class="btn danger">#}
                       </form>
             {% endfor %}
       <br />
     </div>
+
+
+
   </div>
+
 </div>
 
 {% endblock %}

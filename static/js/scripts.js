@@ -1,4 +1,5 @@
 
 $(document).ready(function() {
-    $('input[rel=popover]').popover();
+    $("#myModal").modal()
+//    $("input[name=share]").modal()
 });
